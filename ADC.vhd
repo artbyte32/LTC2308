@@ -9,12 +9,12 @@ use ieee.numeric_std.all;
 entity ADC_spi_master is
     port(
 			ADC_clk		: in std_logic;			-- 40 MHz clock is needed
-			ADC_DOUT		: in std_logic;			-- sampled data
+			ADC_DOUT	: in std_logic;			-- sampled data
 			ADC_DIN		: out std_logic;			-- 6 configuration bits for ADC operation mode
-			ADC_SCLK		: out std_logic;			-- ADC clk
+			ADC_SCLK	: out std_logic;			-- ADC clk
 			ADC_CONVST	: out std_logic := '0';	-- convertion start (chip select)
 			--config_bits	: in std_logic_vector(5 downto 0) := "100010"
-			test_out		: out std_logic_vector(11 downto 0) := (others => '0')
+			test_out	: out std_logic_vector(11 downto 0) := (others => '0')
     );
 end entity;
 
@@ -24,10 +24,10 @@ architecture behavioral of ADC_spi_master is
 	 signal config_bits		: std_logic_vector(17 downto 0) := "100010000000000000";			--channel 0
 	 --signal config_bits		: std_logic_vector(17 downto 0) := "110010000000000000";			--channel 1
 	 --signal config_bits		: std_logic_vector(17 downto 0) := "100110000000000000";			--channel 2
-	 signal done				: std_logic := '0';
-	 signal sampling_active : std_logic := '0';
-	 signal i 					: integer range 0 to 81;	-- count to 80 clock cycles (2us) for ADC_CONVST
-	 signal config_counter 	: integer range 0 to 81; 	-- count to 6 clk for config bits
+	 signal done			: std_logic := '0';
+	 signal sampling_active 	: std_logic := '0';
+	 signal i 			: integer range 0 to 81;	-- count to 80 clock cycles (2us) for ADC_CONVST
+	 signal config_counter 		: integer range 0 to 81; 	-- count to 6 clk for config bits
 	 signal sampled_data		: std_logic_vector(11 downto 0) := (others => '0');
 	 signal sampled_data_integer	: integer range 0 to 4100;
 	 
@@ -41,10 +41,10 @@ begin
 	process(ADC_clk) is
 	begin
 		if rising_edge(ADC_clk) then
-		i <= i + 1;
-		if i = 79 then
-		i <= 0;
-		end if;
+			i <= i + 1;
+			if i = 79 then
+				i <= 0;
+			end if;
 		case State is
 			when init_state =>
 				ADC_CONVST <= '1';
